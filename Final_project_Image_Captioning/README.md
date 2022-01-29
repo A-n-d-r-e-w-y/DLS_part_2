@@ -13,7 +13,7 @@ This repository contains jupyter notebook with model training, pretrained model 
 <br>
 Check out model by clicking on icon:   
 
-<a href="https://githubtocolab.com/A-n-d-r-e-w-y/DLS_part_2/blob/main/demo.ipynb">
+<a href="https://githubtocolab.com/A-n-d-r-e-w-y/DLS_part_2/blob/main/Final_project_Image_Captioning/demo.ipynb">
 <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>  
 
