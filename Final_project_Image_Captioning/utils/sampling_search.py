@@ -16,14 +16,14 @@ def sampling_search(image_path,
     f_for_attn, f_for_capt = image_features_extract_model(temp_input)
     img_tensor = tf.reshape(f_for_attn, (f_for_attn.shape[0], -1, f_for_attn.shape[3]))
     features = encoder(img_tensor)
-    hidden = decoder.init_state(f_for_capt)
+    state = decoder.init_state(f_for_capt)
     BOS_IDX = tf.convert_to_tensor('<bos>')
     dec_input = tf.convert_to_tensor([word_to_index(BOS_IDX)])
     result = []
     for i in range(max_length):
-        predictions, hidden, attention_weights = decoder(dec_input,
-                                                         features,
-                                                         hidden)
+        predictions, state, attention_weights = decoder(dec_input,
+                                                        features,
+                                                        state)
         if attention_weights is not None:
             attention_plot[i] = tf.reshape(attention_weights, (-1,)).numpy()
         predicted_id = tf.random.categorical(predictions, 1)[0][0].numpy()

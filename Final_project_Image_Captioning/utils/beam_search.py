@@ -15,11 +15,11 @@ def beam_search(image_path,
     f_for_attn, f_for_capt = image_features_extract_model(temp_input)
     img_tensor = tf.reshape(f_for_attn, (f_for_attn.shape[0], -1, f_for_attn.shape[3]))
     features = encoder(img_tensor)
-    hidden = decoder.init_state(f_for_capt)
+    state = decoder.init_state(f_for_capt)
     BOS_IDX = tf.convert_to_tensor('<bos>')
     EOS_IDX = tf.convert_to_tensor('<eos>')
     dec_input = tf.convert_to_tensor([word_to_index(BOS_IDX)])
-    results = [(0, dec_input, hidden, ['<bos>'])]  # proba_sum, hypothesis, last_hidden, words
+    results = [(0, dec_input, state, ['<bos>'])]  # proba_sum, hypothesis, last_state, words
     for i in range(max_length):
         new_results = []
         for result in results:
@@ -28,8 +28,8 @@ def beam_search(image_path,
                 new_results.append(result)
             else:
                 dec_input = tf.convert_to_tensor([hypothesis[-1]])
-                hidden = result[2]
-                predictions, hidden, _ = decoder(dec_input, features, hidden)
+                state = result[2]
+                predictions, state, _ = decoder(dec_input, features, state)
                 probas = tf.nn.softmax(predictions, -1)[0].numpy()
                 top_idx = tf.math.top_k(predictions, k=top_k).indices.numpy()[0]
                 for top_i in top_idx:
@@ -37,7 +37,7 @@ def beam_search(image_path,
                     top_i_expand = tf.cast([top_i], dtype=tf.int64)
                     new_results.append((result[0] + np.log(probas[top_i]),
                                         tf.concat([hypothesis, top_i_expand], axis=0),
-                                        hidden,
+                                        state,
                                         result[3] + [predicted_word]))
         results = sorted(new_results, reverse=True)[:top_k]
     return results

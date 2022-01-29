@@ -1,5 +1,5 @@
 # **Image Captioning**
-<img src="examples/model_arch.png" alt="alt text" width="500" height="500">
+<img src="examples/model_arch.png" alt="alt text" width="800" height="800">
 <br>
 <br>
 This is the final project from Deep learning school (or DLS), part_2.  
@@ -8,7 +8,7 @@ This is the final project from Deep learning school (or DLS), part_2.
 Image captioning is a text description of image.  
 Model takes raw image (i.e. .jpg), extract CNN-features and use these features in RNN. RNN returns logits for tokens (words). Logits are converted to probabilty. Beam search (or any other) uses probability to get image description (caption).   
 <br>
-This repository contains jupyter notebook with model training, pretrained model (encoder-decoder), demonstration notebook and brief summary .pdf.
+This repository contains jupyter notebook with model training, pretrained model (encoder-decoder), demonstration notebook and brief summary .pdf (on russian).
 
 <br>
 Check out model by clicking on icon:   
